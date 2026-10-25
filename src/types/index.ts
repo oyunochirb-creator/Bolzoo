@@ -14,21 +14,24 @@ export interface ActivityOption {
   title: string;
   description: string;
   icon: string; // Emoji
-  category: 'romantic' | 'fun' | 'food' | 'chill' | 'creative';
+  category: 'romantic' | 'fun' | 'food' | 'chill' | 'creative' | 'teen_budget';
   isCustom?: boolean;
+  isBudget?: boolean;
 }
 
 export interface FoodOption {
   id: string;
   name: string;
   emoji: string;
-  category: 'meal' | 'drink' | 'dessert';
+  category: 'meal' | 'drink' | 'dessert' | 'budget_snack';
+  isBudget?: boolean;
 }
 
 export interface DateInvitation {
   id: string;
   senderName: string;
   receiverName: string;
+  senderEmail?: string; // Optional email to receive the site link and QR code
   message: string;
   themeId: string;
   musicQuery: string; // Song name or YouTube URL/ID

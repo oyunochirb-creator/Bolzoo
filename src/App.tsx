@@ -6,7 +6,7 @@ import { Header } from './components/Header';
 import { CreatorView } from './components/CreatorView';
 import { ReceiverView } from './components/ReceiverView';
 import { LiveCornerPreview } from './components/LiveCornerPreview';
-import { FloatingHearts } from './components/FloatingHearts';
+import { CursorTrail } from './components/CursorTrail';
 import { Sparkles, ArrowLeft, Heart } from 'lucide-react';
 
 export default function App() {
@@ -21,6 +21,8 @@ export default function App() {
     if (invParam) {
       const decoded = decodeInvitationFromUrl(invParam);
       if (decoded) {
+        decoded.musicQuery = 'GxldQ9eX2wo';
+        decoded.musicTitle = 'Stephen Sanchez - Until I Found You';
         setInvitation(decoded);
         setMode('receiver');
         setIsRecipientUrl(true);
@@ -33,6 +35,8 @@ export default function App() {
     if (savedDraft) {
       try {
         const parsed = JSON.parse(savedDraft);
+        parsed.musicQuery = 'GxldQ9eX2wo';
+        parsed.musicTitle = 'Stephen Sanchez - Until I Found You';
         setInvitation(parsed);
       } catch {
         // use default
@@ -67,6 +71,9 @@ export default function App() {
 
   return (
     <div className={`min-h-screen ${mode === 'creator' ? 'bg-slate-50' : theme.gradientClass} relative selection:bg-pink-300 selection:text-pink-900`}>
+      {/* Interactive Cursor Emoji Trail */}
+      <CursorTrail />
+
       {/* Top Header */}
       {mode === 'creator' && (
         <Header

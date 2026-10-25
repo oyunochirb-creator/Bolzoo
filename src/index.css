@@ -32,6 +32,27 @@
   animation: float-heart linear infinite;
 }
 
+@keyframes cursor-float {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translate(-50%, -85%) scale(1.2) rotate(-8deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -160%) scale(0.4) rotate(18deg);
+  }
+}
+
+.animate-cursor-float {
+  animation: cursor-float 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

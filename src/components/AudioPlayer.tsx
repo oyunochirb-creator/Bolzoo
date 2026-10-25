@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Music, Play, Pause, ExternalLink } from 'lucide-react';
-import { extractYouTubeVideoId } from '../utils/urlState';
+import { Volume2, VolumeX, Music, Play, Pause, ExternalLink, Disc3, Sparkles } from 'lucide-react';
+import { extractYouTubeVideoId, getSongDisplayTitle } from '../utils/urlState';
 
 interface AudioPlayerProps {
   queryOrUrl: string;
@@ -17,28 +17,25 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+
+  // Fixed exclusively to Stephen Sanchez - Until I Found You as requested
+  const videoId = 'GxldQ9eX2wo';
+  const displayName = 'Stephen Sanchez - Until I Found You';
+
+  const prevVideoIdRef = React.useRef(videoId);
 
   useEffect(() => {
-    // When song changes, keep current playing state if user started it
-    if (autoPlay && !hasInteracted) {
+    if (prevVideoIdRef.current !== videoId) {
+      prevVideoIdRef.current = videoId;
+      // User switched to another song: start playing it immediately!
+      setIsPlaying(true);
+    } else if (autoPlay) {
       setIsPlaying(true);
     }
-  }, [queryOrUrl, autoPlay, hasInteracted]);
-
-  if (!queryOrUrl || !queryOrUrl.trim()) {
-    return null;
-  }
-
-  const videoId = extractYouTubeVideoId(queryOrUrl);
-  const embedUrl = videoId
-    ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=${isPlaying ? 1 : 0}&loop=1&playlist=${videoId}&controls=0&mute=${isMuted ? 1 : 0}`
-    : `https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(queryOrUrl)}&autoplay=${isPlaying ? 1 : 0}&loop=1&controls=0&mute=${isMuted ? 1 : 0}`;
-
-  const displayName = songTitle || queryOrUrl;
+  }, [videoId, autoPlay]);
 
   const handleTogglePlay = () => {
-    setHasInteracted(true);
     setIsPlaying((prev) => !prev);
   };
 
@@ -46,83 +43,103 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     setIsMuted((prev) => !prev);
   };
 
+  // Safe YouTube embed URL with proper origins and parameters
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=${
+    isPlaying ? 1 : 0
+  }&loop=1&playlist=${videoId}&controls=1&mute=${
+    isMuted ? 1 : 0
+  }&enablejsapi=1&origin=${encodeURIComponent(origin)}`;
+
   if (minimal) {
     return (
-      <div className="flex items-center gap-2 bg-white/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-pink-200/80 shadow-sm text-xs text-pink-700">
-        {/* Hidden YouTube Iframe for audio streaming */}
-        {isPlaying && (
-          <div className="sr-only">
+      <div className="relative inline-flex flex-col items-center">
+        <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-pink-200/90 shadow-sm text-xs text-pink-700">
+          <button
+            type="button"
+            onClick={handleTogglePlay}
+            className="flex items-center gap-2 hover:text-pink-900 transition-colors font-bold"
+          >
+            <div
+              className={`w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center shrink-0 ${
+                isPlaying ? 'animate-spin [animation-duration:4s]' : ''
+              }`}
+            >
+              <Disc3 className="w-4 h-4 text-pink-600" />
+            </div>
+
+            {isPlaying ? (
+              <span className="flex items-center gap-1.5">
+                <Pause className="w-3.5 h-3.5 fill-pink-600 text-pink-600" />
+                <span className="truncate max-w-[140px] text-[11px]">{displayName}</span>
+              </span>
+            ) : (
+              <span className="flex items-center gap-1.5">
+                <Play className="w-3.5 h-3.5 fill-pink-600 text-pink-600" />
+                <span className="text-[11px]">Хөгжим тоглуулах</span>
+              </span>
+            )}
+          </button>
+
+          {isPlaying && (
+            <div className="flex items-center gap-0.5 ml-1">
+              <span className="w-0.5 h-2.5 bg-pink-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+              <span className="w-0.5 h-3.5 bg-pink-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
+              <span className="w-0.5 h-2 bg-pink-300 rounded-full animate-bounce" />
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setShowVideo((prev) => !prev)}
+            title="Видео тоглуулагч харах"
+            className="text-[10px] px-1.5 py-0.5 rounded-md bg-pink-50 hover:bg-pink-100 text-pink-600 font-medium ml-1"
+          >
+            {showVideo ? 'Нуух' : 'Видео'}
+          </button>
+        </div>
+
+        {/* Small Active YouTube Player - kept visible so browser never throttles audio */}
+        <div
+          className={`overflow-hidden transition-all duration-300 mt-2 rounded-2xl shadow-lg border border-pink-200 bg-black ${
+            showVideo && isPlaying ? 'w-56 h-32 opacity-100' : 'w-[1px] h-[1px] opacity-0 pointer-events-none'
+          }`}
+        >
+          {isPlaying && (
             <iframe
-              title="YouTube Audio Player"
-              width="200"
-              height="200"
+              key={videoId}
+              title="YouTube Audio Stream"
+              width="100%"
+              height="100%"
               src={embedUrl}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              aria-hidden="true"
+              className="w-full h-full"
             />
-          </div>
-        )}
-
-        <button
-          type="button"
-          onClick={handleTogglePlay}
-          className="flex items-center gap-1.5 hover:text-pink-900 transition-colors font-medium"
-        >
-          {isPlaying ? (
-            <>
-              <Pause className="w-3.5 h-3.5 fill-pink-500 text-pink-500" />
-              <span className="truncate max-w-[130px]">{displayName}</span>
-            </>
-          ) : (
-            <>
-              <Play className="w-3.5 h-3.5 fill-pink-500 text-pink-500" />
-              <span>Хөгжим тоглуулах</span>
-            </>
           )}
-        </button>
-
-        {isPlaying && (
-          <div className="flex items-center gap-0.5 ml-1">
-            <span className="w-1 h-3 bg-pink-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-            <span className="w-1 h-4 bg-pink-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
-            <span className="w-1 h-2 bg-pink-300 rounded-full animate-bounce" />
-          </div>
-        )}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="relative bg-white/80 backdrop-blur-md border border-pink-200/80 rounded-2xl p-3.5 shadow-sm">
-      {/* Hidden iframe that plays the YouTube audio stream */}
-      {isPlaying && (
-        <div className="sr-only">
-          <iframe
-            title="YouTube Audio Player"
-            width="200"
-            height="200"
-            src={embedUrl}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            aria-hidden="true"
-          />
-        </div>
-      )}
-
+    <div className="bg-white/90 backdrop-blur-md border border-pink-200 rounded-3xl p-4 shadow-sm space-y-3">
       <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 min-w-0">
+        {/* Left: Song info & vinyl animation */}
+        <div className="flex items-center gap-3 min-w-0">
           <div
-            className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all ${
+            className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 transition-all ${
               isPlaying
-                ? 'bg-gradient-to-tr from-pink-500 to-rose-400 text-white shadow-md shadow-pink-200'
+                ? 'bg-gradient-to-tr from-pink-500 to-rose-400 text-white shadow-md shadow-pink-200 animate-spin [animation-duration:5s]'
                 : 'bg-pink-100 text-pink-500'
             }`}
           >
-            <Music className="w-4 h-4" />
+            <Disc3 className="w-6 h-6" />
           </div>
+
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-pink-500">
-                Дэвсгэр хөгжим
+              <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600">
+                YouTube Дэвсгэр Хөгжим
               </span>
               {isPlaying && (
                 <div className="flex items-center gap-0.5">
@@ -132,17 +149,18 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
                 </div>
               )}
             </div>
-            <p className="text-xs font-semibold text-slate-800 truncate max-w-[200px] sm:max-w-[260px]">
+            <p className="text-xs font-bold text-slate-800 truncate max-w-[200px] sm:max-w-[280px]">
               {displayName}
             </p>
           </div>
         </div>
 
+        {/* Right: Controls */}
         <div className="flex items-center gap-1.5 shrink-0">
           <button
             type="button"
             onClick={handleTogglePlay}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-xl transition-all shadow-sm ${
+            className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl transition-all shadow-xs ${
               isPlaying
                 ? 'bg-pink-500 text-white hover:bg-pink-600'
                 : 'bg-pink-100 text-pink-700 hover:bg-pink-200'
@@ -165,25 +183,53 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
             type="button"
             onClick={handleToggleMute}
             title={isMuted ? 'Дуу нээх' : 'Чимээгүй болгох'}
-            className="p-1.5 rounded-lg text-slate-500 hover:text-pink-600 hover:bg-pink-50 transition-colors"
+            className="p-2 rounded-xl text-slate-500 hover:text-pink-600 hover:bg-pink-50 transition-colors"
           >
             {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </button>
 
+          <button
+            type="button"
+            onClick={() => setShowVideo((prev) => !prev)}
+            title="Тоглуулагчийг дэлгэх"
+            className={`px-2.5 py-1.5 rounded-xl text-xs font-medium border transition-colors ${
+              showVideo
+                ? 'bg-pink-50 text-pink-700 border-pink-200'
+                : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+            }`}
+          >
+            {showVideo ? 'Нуух' : 'Видео'}
+          </button>
+
           <a
-            href={
-              videoId
-                ? `https://www.youtube.com/watch?v=${videoId}`
-                : `https://www.youtube.com/results?search_query=${encodeURIComponent(queryOrUrl)}`
-            }
+            href={`https://www.youtube.com/watch?v=${videoId}`}
             target="_blank"
             rel="noopener noreferrer"
             title="YouTube дээр нээх"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+            className="p-2 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors"
           >
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-4 h-4" />
           </a>
         </div>
+      </div>
+
+      {/* Embedded YouTube Iframe - smoothly expandable */}
+      <div
+        className={`overflow-hidden transition-all duration-300 rounded-2xl bg-black ${
+          showVideo && isPlaying ? 'h-48 opacity-100 mt-2' : isPlaying ? 'h-1 opacity-20' : 'h-0 opacity-0'
+        }`}
+      >
+        {isPlaying && (
+          <iframe
+            key={videoId}
+            title="YouTube Audio Stream"
+            width="100%"
+            height="100%"
+            src={embedUrl}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            className="w-full h-full rounded-2xl"
+          />
+        )}
       </div>
     </div>
   );

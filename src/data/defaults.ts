@@ -44,6 +44,95 @@ export const GRADIENT_THEMES: GradientTheme[] = [
 ];
 
 export const POPULAR_ACTIVITIES: ActivityOption[] = [
+  // Teen, Youth & Budget-friendly Activities
+  {
+    id: 'act-claw-machine',
+    title: 'Хүүхэлдэй шүүрэх машинд тоглох',
+    description: 'Arcade төвд хүүхэлдэй шүүрч бие биедээ хөөрхөн чихмэл тоглоом хожиж өгөх',
+    icon: '🧸',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+  {
+    id: 'act-earbuds',
+    title: 'Нэг чихэвчээ хувааж дуу сонсох',
+    description: 'Хөтлөлцөөд дуртай дуугаа нэг чихэвчээрээ хувааж сонсоод алхах',
+    icon: '🎧',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+  {
+    id: 'act-diy-matching',
+    title: 'Хосын утасны гэр / Оосор урлах',
+    description: 'Бяцхан бүтээлч студид бие биедээ зориулсан хөөрхөн стикер, оосор хийх',
+    icon: '🎨',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+  {
+    id: 'act-phone-photoshoot',
+    title: 'Утсаараа гудамжинд зураг дарах',
+    description: 'Хөөрхөн өнцөг олоод бие биедээ инээдтэй, нандин зураг дарж өгөх',
+    icon: '📱',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+  {
+    id: 'act-bubble-park',
+    title: 'Савангийн хөөс үлээх & Зүлгэн дээр суух',
+    description: 'Хөөс үлээгээд ногоон зүлгэн дээр сууж үүлс харах',
+    icon: '🫧',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+  {
+    id: 'act-ice-skating',
+    title: 'Мөсөн дээр гар хөтлөлцөн гулгах',
+    description: 'Хөтлөлцөөд инээд хөөрөөр дүүрэн мөсөн гулгуурын талбайд гулгах',
+    icon: '⛸️',
+    category: 'fun',
+  },
+  {
+    id: 'act-rooftop-view',
+    title: 'Дээвэр дээрээс оройн тэнгэр харах',
+    description: 'Оройн нар жаргах үед өндөр дэнж эсвэл дээврээс хотоо тольдох',
+    icon: '🌆',
+    category: 'romantic',
+    isBudget: true,
+  },
+  {
+    id: 'act-study-date',
+    title: 'Хамтдаа хичээл давтах / Номын сан',
+    description: 'Номын сан эсвэл тухтай ширээний ард даалгавраа хамт хийж бие биедээ туслах',
+    icon: '✏️',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+  {
+    id: 'act-mobile-game',
+    title: 'Утасны тоглоом хамт тоглох',
+    description: 'PUBG, Roblox, Brawl Stars эсвэл Mobile Legends хамтдаа тоглох',
+    icon: '🎮',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+  {
+    id: 'act-bowling-friendly',
+    title: 'Боулинг тоглож өрсөлдөх',
+    description: 'Страйк цохиж хөгжилдөн инээдтэй мөрий тавьж тоглох',
+    icon: '🎳',
+    category: 'fun',
+  },
+  {
+    id: 'act-bridge-walk',
+    title: 'Гүүрэн дээрээс хотын гэрэл харах',
+    description: 'Оройн сэрүүнд гүүрэн дээр зогсоод машины гэрэл, хотын өнгө тольдох',
+    icon: '🌉',
+    category: 'teen_budget',
+    isBudget: true,
+  },
+
+  // Romantic & Chill Activities
   {
     id: 'act-cafe',
     title: 'Тухтай кафе орох',
@@ -52,18 +141,18 @@ export const POPULAR_ACTIVITIES: ActivityOption[] = [
     category: 'chill',
   },
   {
-    id: 'act-cinema',
-    title: 'Кино үзэх',
-    description: 'Шинэ гарсан кино театрт эсвэл попкорнтой тухлах',
-    icon: '🎬',
-    category: 'romantic',
-  },
-  {
     id: 'act-photobooth',
     title: 'Photobooth зураг татуулах',
     description: 'Хөөрхөн, инээдтэй маск зүүж нандин дурсамжийн зураг даруулах',
     icon: '📸',
     category: 'fun',
+  },
+  {
+    id: 'act-cinema',
+    title: 'Кино үзэх',
+    description: 'Шинэ гарсан кино театрт эсвэл попкорнтой тухлах',
+    icon: '🎬',
+    category: 'romantic',
   },
   {
     id: 'act-sunset-walk',
@@ -83,7 +172,7 @@ export const POPULAR_ACTIVITIES: ActivityOption[] = [
     id: 'act-arcade',
     title: 'Arcade & Тоглоомын төв',
     description: 'Тоглоом тоглож хожих, сагс шидэж, агаарын хоккейд өрсөлдөх',
-    icon: '🎮',
+    icon: '🕹️',
     category: 'fun',
   },
   {
@@ -92,13 +181,6 @@ export const POPULAR_ACTIVITIES: ActivityOption[] = [
     description: 'Зүлгэн дээр дэвсгэр тавиад жимс, амттан идэх',
     icon: '🧺',
     category: 'chill',
-  },
-  {
-    id: 'act-pottery-art',
-    title: 'Шавар ваар эсвэл уран зураг',
-    description: 'Гар урлалын студид хамтдаа ваар урлах эсвэл зураг зурах',
-    icon: '🎨',
-    category: 'creative',
   },
   {
     id: 'act-biking',
@@ -122,66 +204,66 @@ export const POPULAR_ACTIVITIES: ActivityOption[] = [
     category: 'chill',
   },
   {
-    id: 'act-baking',
-    title: 'Гэртээ бялуу, амттан хийх',
-    description: 'Хормогч зүүж хамтдаа жигнэмэг эсвэл бялуу хийх',
-    icon: '🧁',
-    category: 'creative',
-  },
-  {
     id: 'act-pet-cafe',
     title: 'Муур, нохойн кафе орох',
     description: 'Энхрий амьтдыг эрхлүүлж инээмсэглэлээр дүүрэн цагийг өнгөрөөх',
     icon: '🐾',
     category: 'chill',
   },
-  {
-    id: 'act-amusement-park',
-    title: 'Паркийн тоглоомоор наадах',
-    description: 'Галзуу хулгана, алсыг харагч дээр сууж сэтгэлээ баясгах',
-    icon: '🎡',
-    category: 'fun',
-  },
-  {
-    id: 'act-candle-dinner',
-    title: 'Лааны гэрэлт романтик оройн зоог',
-    description: 'Аядуу хөгжим, тансаг орчинд амттай оройн хоол идэх',
-    icon: '🕯️',
-    category: 'romantic',
-  },
-  {
-    id: 'act-night-ramen',
-    title: 'Шөнийн халуун рамен зооглох',
-    description: 'Оройн сэрүүнд ууртай халуун рамен шөл амтархан идэх',
-    icon: '🍜',
-    category: 'food',
-  },
 ];
 
 export const POPULAR_FOODS: FoodOption[] = [
-  { id: 'food-ramen', name: 'Халуун Рамен & Солонгос хоол', emoji: '🍜', category: 'meal' },
+  // Teen & Budget-Friendly Snacks & Meals
+  { id: 'food-cu-ramen', name: 'CU / GS25 Халуун гоймон & Зайдас', emoji: '🍜', category: 'budget_snack', isBudget: true },
+  { id: 'food-triangle-kimbap', name: 'Гурвалжин кимбаб', emoji: '🍙', category: 'budget_snack', isBudget: true },
+  { id: 'food-tuts-icecream', name: 'Түцний 1000₮-ийн сүүтэй зайрмаг', emoji: '🍦', category: 'budget_snack', isBudget: true },
+  { id: 'food-khuushuur', name: 'Шаржигнасан халуун хуушуур', emoji: '🥟', category: 'budget_snack', isBudget: true },
+  { id: 'food-corndog', name: 'Хот-дог / Бяслагтай Корн-дог', emoji: '🌭', category: 'budget_snack', isBudget: true },
+  { id: 'food-fries', name: 'Шарсан төмс & кетчуп', emoji: '🍟', category: 'budget_snack', isBudget: true },
+  { id: 'food-donuts', name: 'Амтат пончик / Чихэр', emoji: '🍩', category: 'budget_snack', isBudget: true },
+  { id: 'food-snack-pack', name: 'Чипс, чихэр & ундааны багц', emoji: '🥤', category: 'budget_snack', isBudget: true },
+  { id: 'food-boba', name: 'Боба сүүн цай', emoji: '🧋', category: 'drink', isBudget: true },
+
+  // Meals & Desserts
   { id: 'food-pizza', name: 'Итали Пицца & Паста', emoji: '🍕', category: 'meal' },
-  { id: 'food-sushi', name: 'Япон Суши & Ролл', emoji: '🍣', category: 'meal' },
   { id: 'food-burger', name: 'Шүүслэг Бургер & Шарсан төмс', emoji: '🍔', category: 'meal' },
-  { id: 'food-steak', name: 'Үхрийн зөөлөн стейк', emoji: '🥩', category: 'meal' },
-  { id: 'food-boba', name: 'Боба сүүн цай', emoji: '🧋', category: 'drink' },
+  { id: 'food-sushi', name: 'Япон Суши & Ролл', emoji: '🍣', category: 'meal' },
   { id: 'food-coffee', name: 'Халуун Латте / Капучино', emoji: '☕', category: 'drink' },
-  { id: 'food-icecream', name: 'Жимстэй амттай зайрмаг', emoji: '🍦', category: 'dessert' },
   { id: 'food-cheesecake', name: 'Нью-Йорк Чизкейк / Бялуу', emoji: '🍰', category: 'dessert' },
-  { id: 'food-mocktail', name: 'Сэнгэнэсэн жимстэй моктейл', emoji: '🍹', category: 'drink' },
   { id: 'food-crepe', name: 'Гүзээлзгэнэтэй вафли, креп', emoji: '🧇', category: 'dessert' },
-  { id: 'food-smoothie', name: 'Эрүүл жимсний смүүти', emoji: '🥤', category: 'drink' },
 ];
 
-export const SUGGESTED_SONGS = [
-  { title: 'Laufey - From The Start', query: 'Laufey From The Start official audio', vibe: 'Хөөрхөн жазз романс' },
-  { title: 'Stephen Sanchez - Until I Found You', query: 'Until I Found You Stephen Sanchez audio', vibe: 'Сонгодог хайрын дуу' },
-  { title: 'Bruno Mars & Lady Gaga - Die With A Smile', query: 'Die With A Smile Bruno Mars Lady Gaga audio', vibe: 'Сэтгэл хөдөлгөм дуу' },
-  { title: 'IU - strawberry moon', query: 'IU strawberry moon audio', vibe: 'Ягаан үлгэрийн мэт' },
-  { title: 'Magnolia - Keshi', query: 'Keshi Magnolia audio', vibe: 'Намуухан, сэтгэл татам' },
-  { title: 'A Cool - Зүүд', query: 'A Cool Zuud audio', vibe: 'Монгол романтик дуу' },
-  { title: 'DPR IAN - Ballroom Extravaganza', query: 'DPR IAN Ballroom Extravaganza audio', vibe: 'Киноны мэт сүрлэг' },
-  { title: 'd4vd - Here With Me', query: 'd4vd Here With Me audio', vibe: 'Зөөлөн дулаан мэдрэмж' },
+export interface SongItem {
+  title: string;
+  artist: string;
+  videoId: string;
+  query: string;
+  vibe: string;
+  category: 'mongol' | 'international' | 'jazz_chill';
+}
+
+export const SUGGESTED_SONGS: SongItem[] = [
+  // Mongol romantic
+  { title: 'Зүүд', artist: 'A Cool', videoId: '4Q9S50_t-rQ', query: 'https://youtu.be/4Q9S50_t-rQ', vibe: 'Монгол романтик сэтгэл татам дуу', category: 'mongol' },
+  { title: 'The Dream of a Kingfisher', artist: 'Magnolian', videoId: 'qK3p5fM8G4o', query: 'https://youtu.be/qK3p5fM8G4o', vibe: 'Уянгын намуун аялгуу', category: 'mongol' },
+  { title: 'Араас минь тэврээч', artist: 'Uka', videoId: '29C4b1sUuBw', query: 'https://youtu.be/29C4b1sUuBw', vibe: 'Эрх дулаан мэдрэмж', category: 'mongol' },
+  { title: '8090', artist: 'The Colors', videoId: '8Kx2y8u9gQ0', query: 'https://youtu.be/8Kx2y8u9gQ0', vibe: 'Ретро романтик vibe', category: 'mongol' },
+  { title: 'Бид хоёр', artist: 'Ginjin x Mrs M', videoId: 'Z2kH_67K_f8', query: 'https://youtu.be/Z2kH_67K_f8', vibe: 'Хөнгөн хэмнэлтэй хайрын дуу', category: 'mongol' },
+  { title: 'Цасан дээр', artist: 'A-Sound', videoId: 'pXm9oG1fEos', query: 'https://youtu.be/pXm9oG1fEos', vibe: 'Сонгодог амьд хөгжим', category: 'mongol' },
+
+  // International Pop Romance
+  { title: 'From The Start', artist: 'Laufey', videoId: 'lSD_L-xic9o', query: 'https://youtu.be/lSD_L-xic9o', vibe: 'Хөөрхөн жазз романс', category: 'jazz_chill' },
+  { title: 'Until I Found You', artist: 'Stephen Sanchez', videoId: 'GxldQ9eX2wo', query: 'https://youtu.be/GxldQ9eX2wo', vibe: 'Сонгодог хайрын дуу', category: 'international' },
+  { title: 'Die With A Smile', artist: 'Bruno Mars & Lady Gaga', videoId: 'kPa7bsKwL-c', query: 'https://youtu.be/kPa7bsKwL-c', vibe: 'Сэтгэл хөдөлгөм дуу', category: 'international' },
+  { title: 'golden hour', artist: 'JVKE', videoId: 'PEM0Vs8jf1w', query: 'https://youtu.be/PEM0Vs8jf1w', vibe: 'Нар жаргах мөчийн аялгуу', category: 'international' },
+  { title: 'strawberry moon', artist: 'IU', videoId: 'sqgxcCjD04s', query: 'https://youtu.be/sqgxcCjD04s', vibe: 'Ягаан үлгэрийн мэт', category: 'jazz_chill' },
+  { title: 'Magnolia', artist: 'Keshi', videoId: 'G1P6Q2JqG7k', query: 'https://youtu.be/G1P6Q2JqG7k', vibe: 'Намуухан, сэтгэл татам', category: 'jazz_chill' },
+  { title: 'Here With Me', artist: 'd4vd', videoId: 'b1kbLwvqugk', query: 'https://youtu.be/b1kbLwvqugk', vibe: 'Зөөлөн дулаан мэдрэмж', category: 'international' },
+  { title: 'Perfect', artist: 'Ed Sheeran', videoId: '2Vv-BfVoq4g', query: 'https://youtu.be/2Vv-BfVoq4g', vibe: 'Төгс хайрын дуу', category: 'international' },
+  { title: 'Lover', artist: 'Taylor Swift', videoId: '-BjZmE2gtdo', query: 'https://youtu.be/-BjZmE2gtdo', vibe: 'Дурлалт хосын сүлд дуу', category: 'international' },
+  { title: 'Ballroom Extravaganza', artist: 'DPR IAN', videoId: '16bI31s4MhI', query: 'https://youtu.be/16bI31s4MhI', vibe: 'Киноны мэт сүрлэг', category: 'international' },
+  { title: 'Glimpse of Us', artist: 'Joji', videoId: 'FvOpPeKSf_4', query: 'https://youtu.be/FvOpPeKSf_4', vibe: 'Төгөлдөр хууртай гүн мэдрэмж', category: 'jazz_chill' },
+  { title: 'Daylight', artist: 'David Kushner', videoId: 'MoN9ql6Yymw', query: 'https://youtu.be/MoN9ql6Yymw', vibe: 'Гүн хоолойтой баллад', category: 'international' },
 ];
 
 export const DEFAULT_INVITATION: DateInvitation = {
@@ -190,9 +272,9 @@ export const DEFAULT_INVITATION: DateInvitation = {
   receiverName: 'Хонгор минь',
   message: 'Чамайг анх харсан өдрөөс хойш инээмсэглэлийг чинь мартдаггүй ээ. Хоёулаа хамтдаа дурсамж дүүрэн нэгэн өдрийг өнгөрүүлэх үү? 💕',
   themeId: 'sakura-sky',
-  musicQuery: 'Laufey From The Start official audio',
-  musicTitle: 'Laufey - From The Start',
-  suggestedActivities: ['act-cafe', 'act-photobooth', 'act-sunset-walk', 'act-cinema'],
-  suggestedFoods: ['food-pizza', 'food-coffee', 'food-icecream'],
+  musicQuery: 'GxldQ9eX2wo',
+  musicTitle: 'Stephen Sanchez - Until I Found You',
+  suggestedActivities: ['act-cafe', 'act-photobooth', 'act-claw-machine', 'act-sunset-walk'],
+  suggestedFoods: ['food-pizza', 'food-coffee', 'food-tuts-icecream'],
   createdAt: Date.now(),
 };

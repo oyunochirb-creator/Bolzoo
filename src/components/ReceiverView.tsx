@@ -63,6 +63,7 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({
 
   const [receiverNote, setReceiverNote] = useState('');
   const [finalResponse, setFinalResponse] = useState<DateResponse | null>(null);
+  const [activityFilter, setActivityFilter] = useState<'all' | 'teen_budget' | 'romantic' | 'fun'>('all');
 
   const theme = GRADIENT_THEMES.find((t) => t.id === invitation.themeId) || GRADIENT_THEMES[0];
 
@@ -374,13 +375,42 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({
               </span>
             </div>
 
-            <p className="text-xs text-slate-600">
-              Өөрт таалагдаж буй зүйлсийг сонгоорой. Хүсвэл өөрийн санаагаа нэмж бичиж болно!
-            </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <p className="text-xs text-slate-600">
+                Өөрт таалагдаж буй зүйлсийг сонгоорой (Хүсвэл өөрийн санаагаа нэмж болно):
+              </p>
+
+              {/* Activity category pills */}
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-medium self-start sm:self-auto overflow-x-auto">
+                {[
+                  { id: 'all', label: 'Бүгд' },
+                  { id: 'teen_budget', label: '🎒 Өсвөр үе / Төсөвт ээлтэй' },
+                  { id: 'romantic', label: '🌅 Романтик' },
+                  { id: 'fun', label: '🕹️ Хөгжилтэй' },
+                ].map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => setActivityFilter(cat.id as any)}
+                    className={`px-2.5 py-1 rounded-lg transition-all text-[11px] font-bold whitespace-nowrap ${
+                      activityFilter === cat.id
+                        ? 'bg-white text-pink-600 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Activities Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[300px] overflow-y-auto pr-1">
-              {POPULAR_ACTIVITIES.map((act) => {
+              {POPULAR_ACTIVITIES.filter((act) => {
+                if (activityFilter === 'all') return true;
+                if (activityFilter === 'teen_budget') return act.isBudget;
+                return act.category === activityFilter;
+              }).map((act) => {
                 const isSelected = selectedActivities.includes(act.id);
                 return (
                   <button
@@ -403,9 +433,14 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({
                           <Check className="w-3.5 h-3.5 text-pink-600 shrink-0" />
                         )}
                       </div>
-                      <p className="text-[10px] text-slate-500 line-clamp-1 leading-tight">
+                      <p className="text-[10px] text-slate-500 line-clamp-1 leading-tight mt-0.5">
                         {act.description}
                       </p>
+                      {act.isBudget && (
+                        <span className="inline-block mt-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-md border border-emerald-200">
+                          🌱 Төсөвт ээлтэй
+                        </span>
+                      )}
                     </div>
                   </button>
                 );
@@ -440,7 +475,7 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({
             <form onSubmit={addCustomActivity} className="flex gap-2">
               <input
                 type="text"
-                placeholder="Өөр зүйл нэмэх (жишээ: Музей үзэх, Зайрмаг авах...)"
+                placeholder="Өөр зүйл нэмэх (жишээ: Музей үзэх, Дугуй жийх...)"
                 value={customInput}
                 onChange={(e) => setCustomInput(e.target.value)}
                 className="flex-1 px-3.5 py-2 bg-pink-50/40 border border-pink-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-pink-400"
@@ -492,10 +527,10 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({
             </div>
 
             <p className="text-xs text-slate-600">
-              Болзооны үеэр амтлахыг хүсэж буй хоол, кофе, десертээ сонгоорой.
+              Болзооны үеэр амтлахыг хүсэж буй хоол, амттанаа сонгоорой (Өсвөр үеийн CU гоймон, зайрмагнаас эхлээд оройн зоог хүртэл):
             </p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-[280px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-[300px] overflow-y-auto pr-1">
               {POPULAR_FOODS.map((food) => {
                 const isSelected = selectedFoods.includes(food.id);
                 return (
@@ -503,14 +538,21 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({
                     key={food.id}
                     type="button"
                     onClick={() => toggleFood(food.id)}
-                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1.5 ${
+                    className={`p-3 rounded-2xl border text-left transition-all flex items-start gap-2.5 ${
                       isSelected
                         ? 'border-pink-500 bg-pink-50/90 ring-2 ring-pink-400/20 text-pink-900 font-bold'
                         : 'border-slate-200/80 bg-white/70 hover:bg-white text-slate-700'
                     }`}
                   >
-                    <span className="text-3xl">{food.emoji}</span>
-                    <span className="text-xs line-clamp-1">{food.name}</span>
+                    <span className="text-2xl shrink-0 mt-0.5">{food.emoji}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-bold truncate leading-tight">{food.name}</p>
+                      {food.isBudget && (
+                        <span className="inline-block mt-1 text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-md">
+                          🌱 Хямд & Амттай
+                        </span>
+                      )}
+                    </div>
                   </button>
                 );
               })}
@@ -605,8 +647,8 @@ export const ReceiverView: React.FC<ReceiverViewProps> = ({
               <h2 className="text-2xl font-black text-slate-900">
                 Та хоёрын болзооны тасалбар бэлэн боллоо!
               </h2>
-              <p className="text-xs text-slate-600">
-                Тасалбарын мэдээллийг хуулаад {invitation.senderName}-руу илгээгээрэй.
+              <p className="text-xs text-slate-600 max-w-sm mx-auto">
+                Story хэлбэрээр татаж авах, screenshot хийх эсвэл шууд {invitation.senderName}-руу илгээн нандин мөчөө хуваалцаарай 📸
               </p>
             </div>
 
